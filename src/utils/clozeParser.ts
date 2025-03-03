@@ -38,13 +38,13 @@ export function parseClozeText(clozeText: string): ParsedCloze {
 
     // Traiter la possibilité d'avoir plusieurs réponses acceptées (format ~=)
     // Normaliser en remplaçant toutes les virgules par des points
-    const primaryAnswer = match[2].replace(",", ".");
+    const primaryAnswer = match[2].replace(/,/g, ".");
 
     // Si une réponse alternative est présente, l'utiliser pour définir une tolérance
     let tolerance = 0; // Tolérance par défaut
     if (match[3]) {
       // S'il y a une réponse alternative, on définit une tolérance appropriée
-      const alternateAnswer = match[3].replace(",", ".");
+      const alternateAnswer = match[3].replace(/,/g, ".");
       const mainValue = parseFloat(primaryAnswer);
       const altValue = parseFloat(alternateAnswer);
 
