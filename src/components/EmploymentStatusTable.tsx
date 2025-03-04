@@ -20,7 +20,7 @@ const EmploymentStatusTable: React.FC = () => {
             <thead>
               <tr>
                 <th className="bg-gray-600 text-white border border-gray-300 p-3 text-center font-medium">
-                  Statut d'emploi et type de contrat
+                  Statut d&apos;emploi et type de contrat
                 </th>
                 <th className="bg-gray-600 text-white border border-gray-300 p-3 text-center font-medium">
                   Ensemble
@@ -231,7 +231,7 @@ const EmploymentStatusTable: React.FC = () => {
       <div className="mt-2 text-gray-700 space-y-1 text-sm">
         <p>
           Lecture : En 2023, 15,5 % des hommes en emploi ont le statut
-          d'indépendant pour leur emploi principal.
+          d&apos;indépendant pour leur emploi principal.
         </p>
         <p>
           Champ : France hors Mayotte, personnes vivant en logement ordinaire,
