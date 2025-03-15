@@ -49,7 +49,7 @@ export default function Exercice1() {
         <div className="mb-6">
           <Link
             href="/"
-            className="text-blue-600 dark:text-blue-400 flex items-center hover:underline"
+            className="text-blue-600 flex items-center hover:underline"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -67,14 +67,14 @@ export default function Exercice1() {
           </Link>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+        <div className="bg-white rounded-lg shadow-md p-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">
               Exercice 1 : Le travail indépendant et le salariat en France
             </h1>
 
             {completionInfo.isCompleted && (
-              <div className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-4 py-2 rounded-md">
+              <div className="bg-green-100 text-green-800 px-4 py-2 rounded-md">
                 Score:{" "}
                 <span className="font-bold">
                   {completionInfo.score.correct}/{completionInfo.score.total}
