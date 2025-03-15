@@ -14,14 +14,28 @@ import {
 } from "recharts";
 import { pibGrowthData } from "@/data/pibData";
 
+// Définition des types pour le tooltip
+interface TooltipProps {
+  active?: boolean;
+  payload?: Array<{
+    value: number;
+    payload: {
+      year: number;
+      pib: number;
+      growthRate: number | null;
+    };
+  }>;
+  label?: string | number;
+}
+
 // Format du tooltip personnalisé
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-white dark:bg-gray-800 p-3 border border-gray-300 dark:border-gray-600 shadow-md rounded-md text-gray-800 dark:text-gray-200">
+      <div className="bg-white p-3 border border-gray-300 shadow-md rounded-md">
         <p className="font-bold">{`Année: ${label}`}</p>
-        <p className="text-blue-600 dark:text-blue-400">{`Taux de croissance: ${payload[0].value}%`}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-400">{`PIB en volume: ${payload[0].payload.pib} milliards €`}</p>
+        <p className="text-blue-600">{`Taux de croissance: ${payload[0].value}%`}</p>
+        <p className="text-sm text-gray-600">{`PIB en volume: ${payload[0].payload.pib} milliards €`}</p>
       </div>
     );
   }

@@ -86,7 +86,7 @@ export default function ClozeExamplePage() {
         <div className="mb-6">
           <Link
             href="/"
-            className="text-blue-600 dark:text-blue-400 flex items-center hover:underline"
+            className="text-blue-600 flex items-center hover:underline"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,56 +104,54 @@ export default function ClozeExamplePage() {
           </Link>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
+        <div className="bg-white  rounded-lg shadow-md p-8">
           <h1 className="text-2xl font-bold mb-4">{exerciseData.title}</h1>
           <p className="mb-6">{exerciseData.description}</p>
 
           {/* Tableau avec les données à analyser */}
-          <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded mb-6">
+          <div className="bg-gray-100  p-4 rounded mb-6">
             <h2 className="font-semibold mb-2">
               Données démographiques de la France (2023)
             </h2>
             <table className="w-full border-collapse">
               <thead>
                 <tr>
-                  <th className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <th className="border border-gray-300  px-4 py-2">
                     Indicateur
                   </th>
-                  <th className="border border-gray-300 dark:border-gray-500 px-4 py-2">
-                    Valeur
-                  </th>
+                  <th className="border border-gray-300  px-4 py-2">Valeur</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     Population totale
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     67,8 millions
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     Population Île-de-France
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     12,2 millions
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     Taux de fécondité
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     1,83 enfant par femme
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     Évolution du taux de natalité (2010-2023)
                   </td>
-                  <td className="border border-gray-300 dark:border-gray-500 px-4 py-2">
+                  <td className="border border-gray-300  px-4 py-2">
                     -0,35 point
                   </td>
                 </tr>
@@ -169,7 +167,7 @@ export default function ClozeExamplePage() {
             />
           </div>
 
-          <div className="mt-8 text-sm text-gray-600 dark:text-gray-400">
+          <div className="mt-8 text-sm text-gray-600 ">
             <p>
               Notes: Tolérance de ±0.2 million pour la population totale, ±0.1
               million pour la population régionale, et ±0.03 pour le taux de
