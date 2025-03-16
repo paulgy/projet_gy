@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
 
 // Données sur l'évolution de la part des indépendants dans la population active
@@ -93,9 +92,9 @@ interface EmploymentStatusChartProps {
   showCddInterim?: boolean;
 }
 
-const EmploymentStatusChart: React.FC<EmploymentStatusChartProps> = ({ 
+const EmploymentStatusChart: React.FC<EmploymentStatusChartProps> = ({
   height = 400,
-  showCddInterim = true
+  showCddInterim = true,
 }) => {
   return (
     <div className="w-full">
@@ -106,8 +105,8 @@ const EmploymentStatusChart: React.FC<EmploymentStatusChartProps> = ({
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis 
-              dataKey="year" 
+            <XAxis
+              dataKey="year"
               ticks={[1982, 1990, 2000, 2010, 2020, 2023]}
               padding={{ left: 10, right: 10 }}
             />
@@ -149,10 +148,17 @@ const EmploymentStatusChart: React.FC<EmploymentStatusChartProps> = ({
 
       <div className="mt-4 text-sm text-gray-600 text-left">
         <p>
-          Lecture : En 2023, 12,9 % des personnes en emploi ont le statut d'indépendant pour leur emploi principal.
+          Lecture : En 2023, 12,9 % des personnes en emploi ont le statut
+          d'indépendant pour leur emploi principal.
         </p>
-        <p>Champ : France hors Mayotte, personnes vivant en logement ordinaire, en emploi.</p>
-        <p>Source : Insee, enquête Emploi 2023, séries longues sur le marché du travail.</p>
+        <p>
+          Champ : France hors Mayotte, personnes vivant en logement ordinaire,
+          en emploi.
+        </p>
+        <p>
+          Source : Insee, enquête Emploi 2023, séries longues sur le marché du
+          travail.
+        </p>
       </div>
     </div>
   );
