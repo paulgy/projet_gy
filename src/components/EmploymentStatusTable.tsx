@@ -7,7 +7,7 @@ const EmploymentStatusTable: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto">
       {/* Titre du tableau */}
       <h3 className="text-2xl font-bold text-blue-800 mb-2">
-        Figure 1 – Statut et type de contrat des personnes en emploi en 2023
+        Tableau – Statut et type de contrat des personnes en emploi en 2023
       </h3>
 
       {/* Unité en % */}
@@ -158,7 +158,7 @@ const EmploymentStatusTable: React.FC = () => {
               </tr>
 
               {/* Intérim */}
-              <tr className="bg-blue-50">
+              <tr className="bg-white">
                 <th className="border border-gray-300 p-3 text-left">
                   Intérim
                 </th>

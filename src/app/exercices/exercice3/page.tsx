@@ -1,88 +1,105 @@
-/* eslint-disable react/no-unescaped-entities */
-// src/app/exercices/exercice3/page.tsx
 "use client";
+
 import Link from "next/link";
 import ClozeQuestion from "@/components/ClozeQuestion";
 import type { Segment } from "@/components/ClozeQuestion";
+import EmploymentStatusChart from "@/components/EmploymentStatusChart";
+import { useState } from "react";
 
-// Types pour les données d'exercice
+// Type pour les données d'exercice
 type ExerciseData = {
   title: string;
   description: string;
   segments: Segment[];
 };
 
-export default function ClozeExamplePage() {
-  // Exemple d'exercice basé sur l'analyse de données statistiques
+export default function Exercice1() {
+  // État pour suivre la progression
+  const [isCompleted, setIsCompleted] = useState(false);
+  // État pour compter les tentatives
+  const [attempts, setAttempts] = useState(0);
+
+  // Les données de l'exercice
   const exerciseData: ExerciseData = {
-    title: "Analyse des données démographiques en France",
+    title: "Le travail indépendant et le salariat en France",
     description:
-      "Complétez le texte suivant en analysant le tableau de données démographiques.",
-    // Ceci pourrait venir d'une API ou d'un fichier JSON
+      "Complétez le texte suivant en analysant le graphique ci-dessus.",
     segments: [
       {
         type: "text",
-        content:
-          "Selon les données de l'INSEE, la population française en 2023 était de ",
+        content: "Alors que les indépendants représentaient encore ",
       },
       {
         type: "blank",
-        id: "pop_total",
+        id: "indep_1982",
         answerType: "number",
-        correct: 67.8,
-        tolerance: 0.2,
-      },
-      {
-        type: "text",
-        content: " millions d'habitants. La région la plus peuplée est ",
-      },
-      {
-        type: "blank",
-        id: "region",
-        answerType: "text",
-        correct: "Île-de-France",
-      },
-      { type: "text", content: " avec " },
-      {
-        type: "blank",
-        id: "pop_idf",
-        answerType: "number",
-        correct: 12.2,
+        correct: 18.6,
         tolerance: 0.1,
       },
       {
         type: "text",
-        content: " millions d'habitants. Le taux de natalité a ",
+        content:
+          " % de la population active occupée en 1982, ils ne représentent plus que ",
       },
       {
         type: "blank",
-        id: "tendance",
+        id: "indep_2023",
+        answerType: "number",
+        correct: 12.9,
+        tolerance: 0.1,
+      },
+      {
+        type: "text",
+        content: " % des personnes en emploi en 2023, soit une baisse de ",
+      },
+      {
+        type: "blank",
+        id: "baisse",
+        answerType: "number",
+        correct: 5.7,
+        tolerance: 0.1,
+      },
+      {
+        type: "text",
+        content:
+          " points de pourcentage. Le processus de salarisation, observé après la seconde guerre mondiale, s'est donc poursuivi depuis le début des années 1980. Cependant, depuis le milieu des années 2010, on assiste à un rebond du travail indépendant qui atteint en ",
+      },
+      {
+        type: "blank",
+        id: "annee_pic",
+        answerType: "number",
+        correct: 2022,
+        tolerance: 0,
+      },
+      {
+        type: "text",
+        content:
+          " son plus haut niveau (13,1 %) depuis 1999. Pendant cette période, l'emploi précaire (CDD et intérim) a ",
+      },
+      {
+        type: "blank",
+        id: "tendance_cdd",
         answerType: "choice",
         options: ["augmenté", "diminué", "stagné"],
-        correct: "diminué",
+        correct: "augmenté",
       },
-      { type: "text", content: " depuis 2010, avec un taux actuel de " },
       {
-        type: "blank",
-        id: "tx_natalite",
-        answerType: "number",
-        correct: 1.83,
-        tolerance: 0.03,
+        type: "text",
+        content: ", passant de 3,6% en 1982 à près de 10% en 2023.",
       },
-      { type: "text", content: " enfants par femme." },
     ],
   };
 
+  // Fonction appelée lorsque l'exercice est complété
   const handleCompletion = () => {
-    // Actions à effectuer une fois que l'exercice est complété correctement
-    // Par exemple, débloquer l'exercice suivant ou enregistrer le progrès
+    setIsCompleted(true);
+    setAttempts((prev) => prev + 1); // Incrémenter le compteur de tentatives
     console.log("Exercice complété avec succès !");
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center p-8">
       <div className="w-full max-w-4xl">
-        {/* Lien de retour vers la page d'accueil */}
         <div className="mb-6">
           <Link
             href="/"
@@ -100,65 +117,51 @@ export default function ClozeExamplePage() {
                 clipRule="evenodd"
               />
             </svg>
-            Retour à l'accueil
+            Retour à l&apos;accueil
           </Link>
         </div>
 
-        <div className="bg-white  rounded-lg shadow-md p-8">
-          <h1 className="text-2xl font-bold mb-4">{exerciseData.title}</h1>
-          <p className="mb-6">{exerciseData.description}</p>
+        <div className="bg-white rounded-lg shadow-md p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold">
+              Exercice 1 : {exerciseData.title}
+            </h1>
 
-          {/* Tableau avec les données à analyser */}
-          <div className="bg-gray-100  p-4 rounded mb-6">
-            <h2 className="font-semibold mb-2">
-              Données démographiques de la France (2023)
-            </h2>
-            <table className="w-full border-collapse">
-              <thead>
-                <tr>
-                  <th className="border border-gray-300  px-4 py-2">
-                    Indicateur
-                  </th>
-                  <th className="border border-gray-300  px-4 py-2">Valeur</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="border border-gray-300  px-4 py-2">
-                    Population totale
-                  </td>
-                  <td className="border border-gray-300  px-4 py-2">
-                    67,8 millions
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300  px-4 py-2">
-                    Population Île-de-France
-                  </td>
-                  <td className="border border-gray-300  px-4 py-2">
-                    12,2 millions
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300  px-4 py-2">
-                    Taux de fécondité
-                  </td>
-                  <td className="border border-gray-300  px-4 py-2">
-                    1,83 enfant par femme
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-gray-300  px-4 py-2">
-                    Évolution du taux de natalité (2010-2023)
-                  </td>
-                  <td className="border border-gray-300  px-4 py-2">
-                    -0,35 point
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="flex items-center space-x-4">
+              {attempts > 0 && (
+                <div className="text-sm text-gray-600">
+                  Tentatives : {attempts}
+                </div>
+              )}
+
+              {isCompleted && (
+                <div className="bg-green-100 text-green-800 px-4 py-2 rounded-md">
+                  Exercice complété !
+                </div>
+              )}
+            </div>
           </div>
 
+          {/* Description de l'exercice */}
+          <div className="mb-6">
+            <p className="text-gray-700">
+              Cet exercice vous propose d&apos;analyser l&apos;évolution du
+              travail indépendant en France depuis les années 1980 jusqu&apos;à
+              aujourd&apos;hui. Observez attentivement le graphique ci-dessous
+              puis complétez le texte d&apos;analyse.
+            </p>
+          </div>
+
+          {/* Graphique d'évolution des indépendants et CDD/Intérim */}
+          <div className="mb-8 border border-gray-200 rounded-lg p-4 bg-gray-50">
+            <h2 className="text-xl font-bold mb-4 text-center">
+              Graphique – Part des indépendants, des CDD et des intérimaires
+              dans l&apos;emploi de 1982 à 2023
+            </h2>
+            <EmploymentStatusChart height={450} />
+          </div>
+
+          {/* Composant ClozeQuestion */}
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Complétez le texte :</h2>
             <ClozeQuestion
@@ -167,11 +170,10 @@ export default function ClozeExamplePage() {
             />
           </div>
 
-          <div className="mt-8 text-sm text-gray-600 ">
+          <div className="mt-8 text-sm text-gray-600">
             <p>
-              Notes: Tolérance de ±0.2 million pour la population totale, ±0.1
-              million pour la population régionale, et ±0.03 pour le taux de
-              fécondité.
+              Notes: Tolérance de ±0.1 point de pourcentage pour les valeurs
+              numériques.
             </p>
           </div>
         </div>

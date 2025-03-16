@@ -72,18 +72,16 @@ export default function Exercice4() {
                   Microsoft Excel, ODS pour LibreOffice).
                   <div className="flex flex-wrap gap-4 mt-3">
                     <a
-                      href="https://ent2d.ac-bordeaux.fr/disciplines/ses/wp-content/uploads/sites/9/2025/01/traam-pib-en-volume-1950-2023-version-élève.xlsx"
+                      href="/files/traam-pib-en-volume-1950-2023-version-eleve.xlsx"
                       className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors inline-block"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download
                     >
                       Télécharger au format XLSX
                     </a>
                     <a
-                      href="https://ent2d.ac-bordeaux.fr/disciplines/ses/wp-content/uploads/sites/9/2025/01/traam-pib-en-volume-1950-2023-version-élève.ods"
+                      href="/files/traam-pib-en-volume-1950-2023-version-eleve.ods"
                       className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors inline-block"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      download
                     >
                       Télécharger au format ODS
                     </a>
@@ -91,9 +89,9 @@ export default function Exercice4() {
                 </li>
 
                 <li>
-                  <span className="font-bold">Calcul :</span> Dans la troisième
-                  colonne, calculez le taux de croissance du PIB en volume en
-                  utilisant la formule appropriée.
+                  <span className="font-bold">Calcul :</span> Complétez la
+                  troisième colonne en y calculant le taux de croissance du PIB
+                  en volume avec la formule appropriée.
                 </li>
 
                 <li>
@@ -141,61 +139,120 @@ export default function Exercice4() {
                     )}
                   </form>
                 </li>
-
-                <li>
-                  <span className="font-bold">Visualisation :</span> Reproduisez
-                  le graphique ci-dessus à partir de vos données calculées :
-                  <ul className="list-disc pl-5 mt-2 space-y-1">
-                    <li>Utilisez un graphique en courbe</li>
-                    <li>
-                      Placez les années en abscisse et les taux de croissance en
-                      ordonnée
-                    </li>
-                  </ul>
-                </li>
               </ol>
             </div>
           </div>
         </div>
-
-        {/* Aide supplémentaire (optionnel) */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold text-blue-800 mb-4">
-            Conseils pour réussir l'exercice
+        {/* Section pour les enseignants */}
+        <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+          <h2 className="text-xl font-bold text-indigo-800 mb-4">
+            Pour les enseignants
           </h2>
 
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-semibold text-gray-800">
-                Comment calculer un taux de croissance ?
-              </h3>
-              <p className="text-gray-700">
-                Le taux de croissance permet de mesurer l'évolution d'une
-                grandeur entre deux périodes. La formule de calcul est :
-                ((Valeur finale - Valeur initiale) / Valeur initiale) × 100
-              </p>
-            </div>
+          <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200 mb-6">
+            <p className="text-gray-700 mb-3">
+              <strong> Télécharger :</strong>{" "}
+            </p>
+            <ul className="list-disc pl-5 space-y-1 mb-4">
+              <li>
+                la version professeur de la feuille de calcul avec les solutions
+                ;
+              </li>
+              <li>
+                la question au format XML à importer directement sur Moodle ;
+              </li>
+              <li>
+                le code HTML à copier-coller directement dans l'éditeur de
+                Moodle
+              </li>
+            </ul>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="/files/traam-pib-en-volume-1950-2023-version-prof.ods"
+                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors inline-block"
+                download
+              >
+                Version professeur ODS
+              </a>
 
-            <div>
-              <h3 className="font-semibold text-gray-800">Dans le tableur</h3>
-              <p className="text-gray-700">
-                Si vous avez la valeur du PIB de l'année t dans la cellule B2 et
-                celle de l'année t-1 dans la cellule B1, la formule sera :
-                =(B2-B1)/B1*100
-              </p>
+              <a
+                href="/files/question-cloze-pib.xml"
+                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors inline-block"
+                download
+              >
+                Question Moodle XML
+              </a>
+              <a
+                href="/files/question-cloze-pib.html"
+                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors inline-block"
+                download
+              >
+                Code HTML
+              </a>
             </div>
+          </div>
 
-            <div>
-              <h3 className="font-semibold text-gray-800">
-                Pourquoi le taux de croissance est-il important ?
-              </h3>
-              <p className="text-gray-700">
-                Le taux de croissance du PIB est un indicateur clé de la santé
-                économique d'un pays. Une croissance positive soutenue indique
-                généralement une économie en expansion, tandis qu'une croissance
-                négative sur deux trimestres consécutifs définit techniquement
-                une récession.
-              </p>
+          {/* Prompts intégrés dans la section enseignants */}
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold text-indigo-800 mb-3">
+              Des exemples de prompts <em>mistral.ai</em> pour générer les
+              contenus de l'exercice{" "}
+            </h3>
+
+            <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200">
+              <ol className="list-none pl-0 space-y-3">
+                <li>
+                  <a
+                    href="https://chat.mistral.ai/chat/9901a240-7128-48f9-b73b-94a4b5bdaa0c"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-700 hover:text-indigo-900 hover:underline flex items-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                    Prompt pour générer le code HTML du graphique à intégrer
+                    dans Moodle
+                  </a>
+                </li>
+
+                <li>
+                  <a
+                    href="https://chat.mistral.ai/chat/9bb65f32-f887-466b-9a1c-6856a876a08c"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-700 hover:text-indigo-900 hover:underline flex items-center"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 mr-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
+                    </svg>
+                    Prompt pour créer la question de validation avec le mot
+                    secret (Question Cloze)
+                  </a>
+                </li>
+              </ol>
             </div>
           </div>
         </div>

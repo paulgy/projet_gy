@@ -9,8 +9,7 @@ export default function Home() {
           Exercices interactifs en SES
         </h1>
         <p className="text-lg text-gray-600 ">
-          Plateforme d'exercices pour lycéens en Sciences Économiques et
-          Sociales
+          Expérimentations pour les TraAM
         </p>
       </header>
       <main className="w-full max-w-4xl flex-grow">

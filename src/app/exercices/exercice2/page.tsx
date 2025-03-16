@@ -33,46 +33,6 @@ export default function Exercice2() {
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <EmploymentStatusTable />
         </div>
-
-        {/* Section d'instructions */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold text-blue-800 mb-4">Consignes</h2>
-          <p className="text-gray-700 mb-4">
-            À partir des données présentées dans le tableau ci-dessus, répondez
-            aux questions suivantes :
-          </p>
-          <ol className="list-decimal pl-5 space-y-3 text-gray-700">
-            <li>
-              <p className="font-medium">Question 1</p>
-              <p>
-                Comparez la proportion d'indépendants selon le sexe. Comment
-                expliquez-vous ces différences ?
-              </p>
-            </li>
-            <li>
-              <p className="font-medium">Question 2</p>
-              <p>
-                Analysez la situation particulière des jeunes (15-24 ans) en
-                matière de types de contrats. Quelles sont les différences les
-                plus marquantes avec les autres tranches d'âge ?
-              </p>
-            </li>
-            <li>
-              <p className="font-medium">Question 3</p>
-              <p>
-                Selon vous, que révèle ce tableau sur la stabilité de l'emploi
-                en France ? Appuyez votre réponse sur les données du tableau.
-              </p>
-            </li>
-          </ol>
-
-          <div className="mt-6 pt-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500 italic">
-              Rédigez vos réponses en vous appuyant sur une analyse précise des
-              données et en utilisant le vocabulaire économique approprié.
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

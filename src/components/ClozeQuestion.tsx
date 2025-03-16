@@ -1,232 +1,280 @@
-// src/components/ClozeQuestion.tsx
-"use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-// Types pour les segments
-export type TextSegment = {
-  type: "text";
-  content: string;
-};
+// Types pour les segments de texte
+export type Segment =
+  | { type: "text"; content: string }
+  | {
+      type: "blank";
+      id: string;
+      answerType: "number" | "text" | "choice";
+      correct: number | string;
+      tolerance?: number;
+      options?: string[];
+    };
 
-export type BlankSegmentBase = {
-  type: "blank";
-  id: string;
-};
-
-export type NumberBlankSegment = BlankSegmentBase & {
-  answerType: "number";
-  correct: number;
-  tolerance?: number;
-};
-
-export type TextBlankSegment = BlankSegmentBase & {
-  answerType: "text";
-  correct: string;
-};
-
-export type ChoiceBlankSegment = BlankSegmentBase & {
-  answerType: "choice";
-  options: string[];
-  correct: string;
-};
-
-export type BlankSegment =
-  | NumberBlankSegment
-  | TextBlankSegment
-  | ChoiceBlankSegment;
-export type Segment = TextSegment | BlankSegment;
-
-// Type pour le feedback
-type FeedbackState = {
-  [key: string]: "correct" | "incorrect" | null;
-};
-
-// Type pour les réponses
-type AnswersState = {
+// Types pour les réponses
+type Answers = {
   [key: string]: string;
 };
 
-export interface ClozeQuestionProps {
+// Types pour l'état de validation des réponses
+type ValidationState = {
+  [key: string]: "correct" | "incorrect" | "unattempted";
+};
+
+interface ClozeQuestionProps {
   segments: Segment[];
-  onComplete?: () => void;
+  onComplete: () => void;
 }
 
-/**
- * Composant pour créer des exercices de type texte à trous (cloze questions)
- * @param {ClozeQuestionProps} props
- * @param {Segment[]} props.segments - Les segments de texte et les trous
- * @param {Function} props.onComplete - Fonction appelée quand tous les champs sont complétés correctement
- */
 const ClozeQuestion: React.FC<ClozeQuestionProps> = ({
-  segments = [],
-  onComplete = () => {},
+  segments,
+  onComplete,
 }) => {
-  const [answers, setAnswers] = useState<AnswersState>({});
-  const [feedback, setFeedback] = useState<FeedbackState>({});
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  // État pour stocker les réponses de l'utilisateur
+  const [answers, setAnswers] = useState<Answers>({});
 
-  // Initialiser les réponses
+  // État pour stocker la validation de chaque réponse
+  const [validationState, setValidationState] = useState<ValidationState>({});
+
+  // État pour savoir si l'exercice a été vérifié
+  const [isChecked, setIsChecked] = useState(false);
+
+  // État pour compter le nombre de tentatives
+  const [attempts, setAttempts] = useState(0);
+
+  // État pour suivre si toutes les réponses sont correctes
+  const [allCorrect, setAllCorrect] = useState(false);
+
+  // Initialiser l'état des validations
   useEffect(() => {
-    const initialAnswers: AnswersState = {};
-    segments
-      .filter((segment) => segment.type === "blank")
-      .forEach((segment) => {
-        initialAnswers[segment.id] = "";
-      });
-    setAnswers(initialAnswers);
-    setFeedback({});
+    const initialValidationState: ValidationState = {};
+    segments.forEach((segment) => {
+      if (segment.type === "blank") {
+        initialValidationState[segment.id] = "unattempted";
+      }
+    });
+    setValidationState(initialValidationState);
   }, [segments]);
 
-  // Vérifier si tout est correct
-  useEffect(() => {
-    if (Object.keys(feedback).length === 0) return;
+  // Gérer le changement de réponse
+  const handleAnswerChange = (id: string, value: string) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
 
-    const allCorrect = Object.values(feedback).every(
-      (status) => status === "correct"
-    );
-    const allAnswered = segments
-      .filter((segment) => segment.type === "blank")
-      .every((segment) => answers[segment.id] !== "");
+    // Si déjà vérifié, mettre à jour la validation en temps réel
+    if (isChecked) {
+      validateAnswer(id, value);
+    }
+  };
 
-    if (allCorrect && allAnswered && !isCompleted) {
-      setIsCompleted(true);
+  // Valider une réponse spécifique
+  const validateAnswer = (id: string, value: string) => {
+    const segment = segments.find(
+      (s) => s.type === "blank" && s.id === id
+    ) as Exclude<Segment, { type: "text" }>;
+
+    if (!segment) return;
+
+    if (segment.answerType === "number") {
+      // Remplacer la virgule par un point pour supporter les deux notations
+      const normalizedValue = value.replace(",", ".");
+      const numValue = parseFloat(normalizedValue);
+      const correctValue = segment.correct as number;
+      const tolerance = segment.tolerance || 0;
+
+      const isCorrect =
+        !isNaN(numValue) && Math.abs(numValue - correctValue) <= tolerance;
+
+      setValidationState((prev) => ({
+        ...prev,
+        [id]: isCorrect ? "correct" : "incorrect",
+      }));
+
+      return isCorrect;
+    } else if (segment.answerType === "choice") {
+      const isCorrect = value === segment.correct;
+
+      setValidationState((prev) => ({
+        ...prev,
+        [id]: isCorrect ? "correct" : "incorrect",
+      }));
+
+      return isCorrect;
+    } else {
+      // Pour les réponses textuelles
+      const isCorrect =
+        value.trim().toLowerCase() ===
+        (segment.correct as string).toLowerCase();
+
+      setValidationState((prev) => ({
+        ...prev,
+        [id]: isCorrect ? "correct" : "incorrect",
+      }));
+
+      return isCorrect;
+    }
+  };
+
+  // Vérifier toutes les réponses
+  const checkAnswers = () => {
+    setIsChecked(true);
+    setAttempts((prev) => prev + 1);
+
+    let correctCount = 0;
+    let totalBlanks = 0;
+
+    // Valider chaque réponse
+    segments.forEach((segment) => {
+      if (segment.type === "blank") {
+        totalBlanks++;
+        const value = answers[segment.id] || "";
+
+        // Mettre à jour l'état 'unattempted' pour les champs vides
+        if (!value.trim()) {
+          setValidationState((prev) => ({
+            ...prev,
+            [segment.id]: "unattempted",
+          }));
+          return;
+        }
+
+        const isCorrect = validateAnswer(segment.id, value);
+        if (isCorrect) {
+          correctCount++;
+        }
+      }
+    });
+
+    // Vérifier si toutes les réponses sont correctes
+    const newAllCorrect = correctCount === totalBlanks;
+    setAllCorrect(newAllCorrect);
+
+    // Si toutes les réponses sont correctes, appeler onComplete
+    if (newAllCorrect) {
       onComplete();
     }
-  }, [feedback, answers, segments, isCompleted, onComplete]);
-
-  const handleChange = (id: string, value: string) => {
-    setAnswers((prev) => ({ ...prev, [id]: value }));
-    setFeedback((prev) => ({ ...prev, [id]: null }));
   };
 
-  const checkAnswer = (
-    segment: BlankSegment
-  ): "correct" | "incorrect" | null => {
-    const answer = answers[segment.id];
-    if (!answer) return null;
-
-    switch (segment.answerType) {
-      case "number":
-        const numAnswer = parseFloat(answer);
-        const numCorrect = segment.correct;
-        const tolerance = segment.tolerance || 0;
-
-        if (isNaN(numAnswer)) return "incorrect";
-
-        if (Math.abs(numAnswer - numCorrect) <= tolerance) {
-          return "correct";
-        }
-        return "incorrect";
-
-      case "text":
-        const normalizedAnswer = answer.trim().toLowerCase();
-        const normalizedCorrect = segment.correct.trim().toLowerCase();
-
-        // On peut ajouter des options comme ignorer les accents, etc.
-        return normalizedAnswer === normalizedCorrect ? "correct" : "incorrect";
-
-      case "choice":
-        return answer === segment.correct ? "correct" : "incorrect";
-
-      default:
-        return null;
-    }
+  // Réinitialiser l'exercice pour une nouvelle tentative (conserve les réponses)
+  const resetExercise = () => {
+    // Réinitialiser uniquement la validation visuelle
+    setIsChecked(false);
   };
 
-  const validateAllAnswers = () => {
-    const newFeedback: FeedbackState = {};
-
-    segments
-      .filter((segment): segment is BlankSegment => segment.type === "blank")
-      .forEach((segment) => {
-        newFeedback[segment.id] = checkAnswer(segment);
-      });
-
-    setFeedback(newFeedback);
-  };
-
+  // Rendu des segments
   const renderSegment = (segment: Segment, index: number) => {
     if (segment.type === "text") {
       return <span key={index}>{segment.content}</span>;
     }
 
-    if (segment.type === "blank") {
-      const status = feedback[segment.id];
-      const statusClass = status
-        ? status === "correct"
-          ? "bg-green-100 border-green-500"
-          : "bg-red-100 border-red-500"
-        : "";
+    const id = segment.id;
+    const value = answers[id] || "";
+    const validation = validationState[id];
 
-      switch (segment.answerType) {
-        case "number":
-          return (
-            <input
-              key={index}
-              type="number"
-              step="any"
-              value={answers[segment.id] || ""}
-              onChange={(e) => handleChange(segment.id, e.target.value)}
-              className={`mx-1 inline-block border-b-2 border-blue-500 focus:outline-none px-1 w-20 text-center ${statusClass} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
-              placeholder="#"
-            />
-          );
+    // Déterminer la classe CSS en fonction de l'état de validation
+    let inputClasses =
+      "border rounded px-2 py-1 mx-1 focus:outline-none focus:ring-2 focus:ring-blue-500";
 
-        case "text":
-          return (
-            <input
-              key={index}
-              type="text"
-              value={answers[segment.id] || ""}
-              onChange={(e) => handleChange(segment.id, e.target.value)}
-              className={`mx-1 inline-block border-b-2 border-blue-500 focus:outline-none px-1 min-w-24 w-auto text-center ${statusClass}`}
-              placeholder="..."
-            />
-          );
-
-        case "choice":
-          return (
-            <select
-              key={index}
-              value={answers[segment.id] || ""}
-              onChange={(e) => handleChange(segment.id, e.target.value)}
-              className={`mx-1 inline-block border-b-2 border-blue-500 focus:outline-none px-1 ${statusClass}`}
-            >
-              <option value="">Choisir...</option>
-              {segment.options.map((option, i) => (
-                <option key={i} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          );
-
-        default:
-          return null;
+    if (isChecked) {
+      if (validation === "correct") {
+        inputClasses += " bg-green-100 text-green-800 border-green-500";
+      } else if (validation === "incorrect") {
+        inputClasses += " bg-red-100 text-red-800 border-red-500";
+      } else {
+        inputClasses += " bg-yellow-100 text-yellow-800 border-yellow-500"; // Non tenté
       }
     }
 
-    return null;
+    // Adapter la largeur en fonction du type de champ
+    if (segment.answerType === "number") {
+      inputClasses += " w-20";
+    } else if (segment.answerType === "choice") {
+      inputClasses += " w-32";
+    } else {
+      inputClasses += " w-28";
+    }
+
+    if (segment.answerType === "choice" && segment.options) {
+      return (
+        <select
+          key={index}
+          value={value}
+          onChange={(e) => handleAnswerChange(id, e.target.value)}
+          className={inputClasses}
+        >
+          <option value="">Sélectionner</option>
+          {segment.options.map((option, i) => (
+            <option key={i} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      );
+    }
+
+    // Déterminer le placeholder en fonction du type et de l'ID du champ
+    let placeholder = "...";
+    if (segment.answerType === "number") {
+      // Identifier les champs d'année par leur ID
+      if (id.includes("annee") || id.includes("an_") || id === "annee_pic") {
+        placeholder = "année";
+      } else {
+        placeholder = "0,0";
+      }
+    }
+
+    return (
+      <input
+        key={index}
+        type="text"
+        value={value}
+        onChange={(e) => handleAnswerChange(id, e.target.value)}
+        className={inputClasses}
+        placeholder={placeholder}
+      />
+    );
   };
 
   return (
-    <div className="p-4 border rounded shadow-sm">
-      <div className="mb-4 leading-relaxed">{segments.map(renderSegment)}</div>
-
-      <div className="mt-4 flex justify-between items-center">
-        <button
-          onClick={validateAllAnswers}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
-        >
-          Vérifier
-        </button>
-
-        {isCompleted && (
-          <div className="text-green-600 font-semibold">
-            Bravo ! Toutes les réponses sont correctes.
-          </div>
-        )}
+    <div className="border border-gray-200 rounded-lg p-6 bg-white">
+      <div className="mb-4 text-lg leading-relaxed">
+        {segments.map(renderSegment)}
       </div>
+
+      <div className="flex justify-between mt-6">
+        <div>
+          {attempts > 0 && (
+            <span className="text-sm text-gray-600">Tentative {attempts}</span>
+          )}
+        </div>
+
+        <div>
+          <button
+            onClick={isChecked ? resetExercise : checkAnswers}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition"
+          >
+            {isChecked ? "Nouvelle tentative" : "Vérifier les réponses"}
+          </button>
+        </div>
+      </div>
+
+      {isChecked && (
+        <div className="mt-4">
+          {allCorrect ? (
+            <div className="bg-green-100 text-green-800 p-3 rounded-md">
+              Félicitations ! Toutes vos réponses sont correctes.
+            </div>
+          ) : (
+            <div className="bg-yellow-100 text-yellow-800 p-3 rounded-md">
+              Certaines réponses sont incorrectes. Vous pouvez les corriger et
+              revérifier.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -35,7 +35,9 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps) => {
       <div className="bg-white p-3 border border-gray-300 shadow-md rounded-md">
         <p className="font-bold">{`Année: ${label}`}</p>
         <p className="text-blue-600">{`Taux de croissance: ${payload[0].value}%`}</p>
-        <p className="text-sm text-gray-600">{`PIB en volume: ${payload[0].payload.pib} milliards €`}</p>
+        <p className="text-sm text-gray-600">{`PIB en volume: ${payload[0].payload.pib.toFixed(
+          1
+        )} milliards €`}</p>{" "}
       </div>
     );
   }
