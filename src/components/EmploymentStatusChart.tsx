@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-// Données sur l'évolution de la part des indépendants dans la population active
+// Données sur l évolution de la part des indépendants dans la population active
 const employmentStatusData = [
   { year: 1982, independent: 18.6, cddInterim: 3.6 },
   { year: 1983, independent: 18.7, cddInterim: 3.4 },
