@@ -149,7 +149,7 @@ const EmploymentStatusChart: React.FC<EmploymentStatusChartProps> = ({
       <div className="mt-4 text-sm text-gray-600 text-left">
         <p>
           Lecture : En 2023, 12,9 % des personnes en emploi ont le statut
-          d'indépendant pour leur emploi principal.
+          d&apos;indépendant pour leur emploi principal.
         </p>
         <p>
           Champ : France hors Mayotte, personnes vivant en logement ordinaire,
