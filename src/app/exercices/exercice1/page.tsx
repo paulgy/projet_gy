@@ -1,36 +1,88 @@
 "use client";
 
 import Link from "next/link";
-import QuestionCloze from "@/components/QuestionCloze";
+import ClozeQuestion from "@/components/ClozeQuestion";
+import type { Segment } from "@/components/ClozeQuestion";
 import EmploymentStatusChart from "@/components/EmploymentStatusChart";
-import { parseClozeText } from "@/utils/clozeParser";
 import { useState } from "react";
+
+// Type pour les données d'exercice
+type ExerciseData = {
+  title: string;
+  description: string;
+  segments: Segment[];
+};
 
 export default function Exercice1() {
   // État pour suivre la progression
-  const [completionInfo, setCompletionInfo] = useState({
-    isCompleted: false,
-    score: { correct: 0, total: 0 },
-  });
+  const [isCompleted, setIsCompleted] = useState(false);
+  // État pour compter les tentatives
+  const [attempts, setAttempts] = useState(0);
 
-  // Le texte à compléter au format Moodle Cloze
-  const originalText = `Alors que les indépendants représentaient encore {1:NUMERICAL:=18,6} % de la population active occupée en 1982, ils ne représentent plus que {2:NUMERICAL:=12,9} % des personnes en emploi en 2023, soit une baisse de {3:NUMERICAL:=5,7} points de % . Le processus de salarisation, observé après la seconde guerre mondiale, s'est donc poursuivi depuis le début des années 1980. Cependant, depuis le milieu des années 2010, on assiste à un rebond du travail indépendant qui atteint en {4:NUMERICAL:=2022} son plus haut niveau (13,1 %) depuis 1999.`;
-
-  // L'instruction pour l'exercice
-  const instructions =
-    "<strong>À l'aide du graphique ci-dessus, complétez le texte suivant :</strong><br><em>Pour les réponses numériques, utilisez un point ou une virgule comme séparateur décimal (ex: 12,5 ou 12.5)</em>";
-
-  // Parser le texte Cloze
-  const { text, fields } = parseClozeText(originalText);
+  // Les données de l'exercice
+  const exerciseData: ExerciseData = {
+    title: "Le travail indépendant et le salariat en France",
+    description:
+      "Complétez le texte suivant en analysant le graphique ci-dessus.",
+    segments: [
+      {
+        type: "text",
+        content: "Alors que les indépendants représentaient encore ",
+      },
+      {
+        type: "blank",
+        id: "indep_1982",
+        answerType: "number",
+        correct: 18.6,
+        tolerance: 0.1,
+      },
+      {
+        type: "text",
+        content:
+          " % de la population active occupée en 1982, ils ne représentent plus que ",
+      },
+      {
+        type: "blank",
+        id: "indep_2023",
+        answerType: "number",
+        correct: 12.9,
+        tolerance: 0.1,
+      },
+      {
+        type: "text",
+        content: " % des personnes en emploi en 2023, soit une baisse de ",
+      },
+      {
+        type: "blank",
+        id: "baisse",
+        answerType: "number",
+        correct: 5.7,
+        tolerance: 0.1,
+      },
+      {
+        type: "text",
+        content:
+          " points de pourcentage. Le processus de salarisation, observé après la seconde guerre mondiale, s'est donc poursuivi depuis le début des années 1980. Cependant, depuis le milieu des années 2010, on assiste à un rebond du travail indépendant qui atteint en ",
+      },
+      {
+        type: "blank",
+        id: "annee_pic",
+        answerType: "number",
+        correct: 2022,
+        tolerance: 0,
+      },
+      {
+        type: "text",
+        content: " son plus haut niveau (13,1 %) depuis 1999.",
+      },
+    ],
+  };
 
   // Fonction appelée lorsque l'exercice est complété
-  const handleComplete = (correct: number, total: number) => {
-    setCompletionInfo({
-      isCompleted: true,
-      score: { correct, total },
-    });
-
-    console.log(`Exercice complété avec un score de ${correct}/${total}`);
+  const handleCompletion = () => {
+    setIsCompleted(true);
+    setAttempts((prev) => prev + 1); // Incrémenter le compteur de tentatives
+    console.log("Exercice complété avec succès !");
   };
 
   return (
@@ -60,17 +112,22 @@ export default function Exercice1() {
         <div className="bg-white rounded-lg shadow-md p-8">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">
-              Exercice 1 : Le travail indépendant et le salariat en France
+              Exercice 1 : {exerciseData.title}
             </h1>
 
-            {completionInfo.isCompleted && (
-              <div className="bg-green-100 text-green-800 px-4 py-2 rounded-md">
-                Score:{" "}
-                <span className="font-bold">
-                  {completionInfo.score.correct}/{completionInfo.score.total}
-                </span>
-              </div>
-            )}
+            <div className="flex items-center space-x-4">
+              {attempts > 0 && (
+                <div className="text-sm text-gray-600">
+                  Tentatives : {attempts}
+                </div>
+              )}
+
+              {isCompleted && (
+                <div className="bg-green-100 text-green-800 px-4 py-2 rounded-md">
+                  Exercice complété !
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Description de l'exercice */}
@@ -86,76 +143,28 @@ export default function Exercice1() {
           {/* Graphique d'évolution des indépendants et CDD/Intérim */}
           <div className="mb-8 border border-gray-200 rounded-lg p-4 bg-gray-50">
             <h2 className="text-xl font-bold mb-4 text-center">
-              Figure 2 – Part des indépendants, des CDD et des intérimaires dans
-              l&apos;emploi de 1982 à 2023
+              Graphique – Part des indépendants, des CDD et des intérimaires
+              dans l&apos;emploi de 1982 à 2023
             </h2>
             <EmploymentStatusChart height={450} />
           </div>
 
-          {/* Tableau complémentaire avec quelques points clés */}
-          <div className="mb-8 border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <h3 className="text-lg font-semibold mb-3">
-              Données clés sur le travail indépendant
-            </h3>
-            <div className="overflow-x-auto">
-              <table className="min-w-full border-collapse">
-                <thead>
-                  <tr className="bg-blue-100">
-                    <th className="border border-gray-300 px-4 py-2">
-                      Période
-                    </th>
-                    <th className="border border-gray-300 px-4 py-2">
-                      Caractéristiques
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="border border-gray-300 px-4 py-2">
-                      1982-2008
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      Déclin continu du travail indépendant, passant de 18,6% à
-                      10,7% (-7,9 points)
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-gray-300 px-4 py-2">
-                      2008-2015
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      Légère remontée puis stabilisation autour de 11,6%
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-gray-300 px-4 py-2">
-                      2015-2022
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      Nouvelle hausse significative jusqu&apos;à 13,1% en 2022
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-gray-300 px-4 py-2">
-                      2022-2023
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      Légère baisse à 12,9%
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+          {/* Composant ClozeQuestion */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold mb-4">
+              À partir des données du graphique, complétez le texte suivant :
+            </h2>
+            <ClozeQuestion
+              segments={exerciseData.segments}
+              onComplete={handleCompletion}
+            />
           </div>
 
-          {/* Composant QuestionCloze */}
-          <div className="bg-blue-50 p-6 rounded-lg">
-            <QuestionCloze
-              instructions={instructions}
-              text={text}
-              fields={fields}
-              onComplete={handleComplete}
-            />
+          <div className="mt-8 text-sm text-gray-600">
+            <p>
+              Notes: Tolérance de ±0.1 point de pourcentage pour les valeurs
+              numériques.
+            </p>
           </div>
         </div>
       </div>

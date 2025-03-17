@@ -9,7 +9,7 @@ export default function Home() {
           Exercices interactifs en SES
         </h1>
         <p className="text-lg text-gray-600 ">
-          Expérimentations pour les TraAM
+          Expérimentations pour les TraAM 2024-2025
         </p>
       </header>
       <main className="w-full max-w-4xl flex-grow">
@@ -22,11 +22,11 @@ export default function Home() {
                 <h3 className="text-xl font-medium mb-2">
                   Exercice 1 : Le travail indépendant et le salariat en France
                 </h3>
-                <p className="text-gray-600 mb-4">
-                  Complétez le texte à trous sur les statistiques du travail
-                  indépendant et du salariat en France.
+                <p className="text-gray-600  mb-4">
+                  Analyser l'évolution du travail indépendant en France depuis
+                  les années 1980 jusqu'à aujourd'hui.
                 </p>
-                <div className="text-blue-600 flex items-center">
+                <div className="text-blue-600  flex items-center">
                   Commencer l'exercice
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -50,34 +50,6 @@ export default function Home() {
                 <h3 className="text-xl font-medium mb-2">Exercice 2</h3>
                 <p className="text-gray-600  mb-4">
                   Description courte de l'exercice 2. Cliquez pour commencer.
-                </p>
-                <div className="text-blue-600  flex items-center">
-                  Commencer l'exercice
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 ml-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-
-            {/* Carte pour l'exercice 3 */}
-            <Link href="/exercices/exercice3" className="block">
-              <div className="border border-gray-200  rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400 ">
-                <h3 className="text-xl font-medium mb-2">
-                  Exercice 3 : Analyse démographique
-                </h3>
-                <p className="text-gray-600  mb-4">
-                  Complétez le texte à trous sur les données démographiques de
-                  la France en analysant les statistiques.
                 </p>
                 <div className="text-blue-600  flex items-center">
                   Commencer l'exercice
