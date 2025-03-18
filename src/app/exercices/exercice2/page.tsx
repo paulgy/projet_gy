@@ -140,8 +140,9 @@ export default function Exercice2() {
 
           <div className="mt-8 text-sm text-gray-600">
             <p>
-              Notes: Tolérance de ±0.1 point de pourcentage pour les valeurs
-              numériques.
+              Note : Vous pouvez survoler le graphique avec votre souris
+              afficher les valeurs exactes. Pour les calculs, vous pouvez
+              arrondir votre résultat à un chiffre après la virgule.
             </p>
           </div>
         </div>

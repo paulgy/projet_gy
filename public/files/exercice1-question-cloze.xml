@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 1950355  -->
+  <question type="cloze">
+    <name>
+      <text>Exercice 1 : Le travail indépendant et le salariat en France</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</p>
+<div style="max-width: 900px; margin: 0 auto; padding: 15px; font-family: Arial, sans-serif;">
+<div style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">Part des indépendants, des CDD et des intérimaires dans l'emploi de 1982 à 2023</div>
+<div style="position: relative; height: 400px;"><canvas id="myChart"></canvas></div>
+<div style="margin-top: 15px; font-size: 12px; color: #666;">
+<p>Lecture : En 2023, 12,9 % des personnes en emploi ont le statut d'indépendant pour leur emploi principal.</p>
+<p>Champ : France hors Mayotte, personnes vivant en logement ordinaire, en emploi.</p>
+<p>Source : Insee, enquête Emploi 2023, séries longues sur le marché du travail.</p>
+</div>
+</div>
+<p>
+<script>
+        // Données du graphique
+        const data = [
+            {annee: 1982, cdd_interim: 3.6, independants: 18.6},
+            {annee: 1983, cdd_interim: 3.4, independants: 18.7},
+            {annee: 1984, cdd_interim: 3.2, independants: 19.1},
+            {annee: 1985, cdd_interim: 3.7, independants: 18.4},
+            {annee: 1986, cdd_interim: 4.2, independants: 18.2},
+            {annee: 1987, cdd_interim: 4.6, independants: 17.9},
+            {annee: 1988, cdd_interim: 5.1, independants: 17.7},
+            {annee: 1989, cdd_interim: 5.5, independants: 16.9},
+            {annee: 1990, cdd_interim: 5.4, independants: 17.1},
+            {annee: 1991, cdd_interim: 5.1, independants: 16.7},
+            {annee: 1992, cdd_interim: 5.5, independants: 16.4},
+            {annee: 1993, cdd_interim: 6.0, independants: 15.4},
+            {annee: 1994, cdd_interim: 6.0, independants: 15.3},
+            {annee: 1995, cdd_interim: 7.1, independants: 14.9},
+            {annee: 1996, cdd_interim: 7.4, independants: 14.4},
+            {annee: 1997, cdd_interim: 8.0, independants: 14.1},
+            {annee: 1998, cdd_interim: 8.5, independants: 13.6},
+            {annee: 1999, cdd_interim: 8.5, independants: 13.4},
+            {annee: 2000, cdd_interim: 9.5, independants: 12.5},
+            {annee: 2001, cdd_interim: 9.1, independants: 12.0},
+            {annee: 2002, cdd_interim: 8.6, independants: 11.9},
+            {annee: 2003, cdd_interim: 8.7, independants: 11.7},
+            {annee: 2004, cdd_interim: 8.7, independants: 11.1},
+            {annee: 2005, cdd_interim: 9.0, independants: 11.1},
+            {annee: 2006, cdd_interim: 9.2, independants: 11.6},
+            {annee: 2007, cdd_interim: 9.2, independants: 11.2},
+            {annee: 2008, cdd_interim: 9.2, independants: 10.7},
+            {annee: 2009, cdd_interim: 8.7, independants: 11.2},
+            {annee: 2010, cdd_interim: 9.4, independants: 11.7},
+            {annee: 2011, cdd_interim: 9.6, independants: 11.8},
+            {annee: 2012, cdd_interim: 9.5, independants: 11.6},
+            {annee: 2013, cdd_interim: 9.3, independants: 11.5},
+            {annee: 2014, cdd_interim: 9.6, independants: 11.7},
+            {annee: 2015, cdd_interim: 10.3, independants: 11.6},
+            {annee: 2016, cdd_interim: 10.5, independants: 11.8},
+            {annee: 2017, cdd_interim: 11.0, independants: 11.7},
+            {annee: 2018, cdd_interim: 10.7, independants: 11.7},
+            {annee: 2019, cdd_interim: 10.2, independants: 12.2},
+            {annee: 2020, cdd_interim: 9.4, independants: 12.5},
+            {annee: 2021, cdd_interim: 9.8, independants: 12.6},
+            {annee: 2022, cdd_interim: 10.3, independants: 13.1},
+            {annee: 2023, cdd_interim: 9.8, independants: 12.9}
+        ];
+
+        // Préparation des données pour Chart.js
+        const years = data.map(item => item.annee);
+        const cddInterim = data.map(item => item.cdd_interim);
+        const independants = data.map(item => item.independants);
+
+        // Création du graphique
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: 'CDD et intérimaires',
+                        data: cddInterim,
+                        borderColor: '#e41a1c',
+                        backgroundColor: 'rgba(228, 26, 28, 0.1)',
+                        tension: 0.2,
+                        borderWidth: 2,
+                        pointRadius: 2,
+                        pointHoverRadius: 5
+                    },
+                    {
+                        label: 'Indépendants',
+                        data: independants,
+                        borderColor: '#377eb8',
+                        backgroundColor: 'rgba(55, 126, 184, 0.1)',
+                        tension: 0.2,
+                        borderWidth: 2,
+                        pointRadius: 2,
+                        pointHoverRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + '%';
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Année',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        ticks: {
+                            callback: function(value, index, values) {
+                                // Afficher seulement certaines années pour éviter l'encombrement
+                                const label = this.getLabelForValue(value);
+                                return index % 5 === 0 ? label : '';
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Part dans l\'emploi (en %)',
+                            font: {
+                                weight: 'bold'
+                            }
+                        },
+                        min: 0,
+                        max: 20,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            },
+                            stepSize: 2
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'nearest'
+                }
+            }
+        });
+    </script>
+</p>
+<p><strong>À partir des données du graphique, complétez le texte suivant : </strong></p>
+<p>Alors que les indépendants représentaient encore {1:NUMERICAL:=18.6:0.1} % de la population active occupée en 1982, ils ne représentent plus que {1:NUMERICAL:=12.9:0.1} % des personnes en emploi en 2023, soit une baisse de {1:NUMERICAL:=5.7:0.1} points de pourcentage. Le processus de salarisation, observé après la Seconde Guerre mondiale, s'est donc poursuivi depuis le début des années 1980. Cependant, depuis le milieu des années 2010, on assiste à un rebond du travail indépendant qui atteint en {1:NUMERICAL:=2022} son plus haut niveau (13,1 %) depuis 1999.</p>
+<p style="margin-top: 10px; font-style: italic; padding: 8px; border-radius: 4px;">Note : Vous pouvez survoler le graphique avec votre souris pour afficher les valeurs exactes. Pour les calculs, vous pouvez arrondir votre résultat à un chiffre après la virgule.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="html">
+      <text></text>
+    </generalfeedback>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+  </question>
+
+</quiz>

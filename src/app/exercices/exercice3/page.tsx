@@ -231,11 +231,9 @@ export default function Exercice3() {
 
           <div className="mt-8 text-sm text-gray-600">
             <p>
-              Notes: Tolérance de ±0.1 point de pourcentage pour les valeurs
-              numériques. Pour le calcul du pourcentage d&apos;augmentation
-              entre 2008 et 2023, vous pouvez arrondir votre résultat à un
-              chiffre après la virgule (4,7). Les calculs doivent toutefois être
-              précis avant l&apos;arrondi éventuel.
+              Note : Vous pouvez survoler le graphique avec votre souris
+              afficher les valeurs exactes. Pour les calculs, vous pouvez
+              arrondir votre résultat à un chiffre après la virgule.
             </p>
           </div>
         </div>
