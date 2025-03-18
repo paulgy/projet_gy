@@ -143,10 +143,10 @@ export default function Exercice4() {
             </div>
           </div>
         </div>
-        {/* Section pour les enseignants */}
+        {/* Section pour les professeurs */}
         <div className="bg-white p-6 rounded-lg shadow-md mb-8">
           <h2 className="text-xl font-bold text-indigo-800 mb-4">
-            Pour les enseignants
+            Pour les professeurs
           </h2>
 
           <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-200 mb-6">
