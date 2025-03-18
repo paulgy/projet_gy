@@ -137,14 +137,6 @@ export default function Exercice2() {
             segments={exerciseData.segments}
             onComplete={handleCompletion}
           />
-
-          <div className="mt-8 text-sm text-gray-600">
-            <p>
-              Note : Vous pouvez survoler le graphique avec votre souris
-              afficher les valeurs exactes. Pour les calculs, vous pouvez
-              arrondir votre résultat à un chiffre après la virgule.
-            </p>
-          </div>
         </div>
       </div>
     </div>
