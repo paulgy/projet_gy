@@ -3,7 +3,29 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col items-center p-8">
+    <div className="min-h-screen flex flex-col items-center p-8 relative">
+      {/* Bouton Diaporama discret en haut à droite */}
+      <div className="absolute top-4 right-4">
+        <Link
+          href="/diaporama"
+          className="px-3 py-1.5 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition-colors flex items-center shadow-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 mr-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 4a1 1 0 011-1h12a1 1 0 011 1v8a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm1 0v8h12V4H4z"
+              clipRule="evenodd"
+            />
+            <path d="M4 12h12v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z" />
+          </svg>
+          Diaporama
+        </Link>
+      </div>
       <header className="w-full max-w-4xl mb-12 text-center">
         <h1 className="text-3xl font-bold mb-4">
           Exercices interactifs en SES
