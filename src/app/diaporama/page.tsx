@@ -33,6 +33,31 @@ export default function DiaporamaPage() {
           </div>
           <p style={{ fontSize: "24px", color: "#666" }}>Bordeaux - Limoges</p>
         </div>
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            left: "0",
+            right: "0",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              backgroundColor: "rgba(0, 0, 0, 0.05)",
+              padding: "5px 12px",
+              borderRadius: "15px",
+              fontSize: "13px",
+              color: "#666",
+            }}
+          >
+            <span style={{ marginRight: "5px" }}>←</span>
+            Utilisez les flèches du clavier pour naviguer
+            <span style={{ marginLeft: "5px" }}>→</span>
+          </div>
+        </div>
       </Slide>
 
       {/* Slide de test simple */}
