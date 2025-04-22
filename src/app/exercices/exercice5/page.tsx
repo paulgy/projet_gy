@@ -120,7 +120,7 @@ const ExerciceLectureDonneesPage = () => {
               href="/"
               className="text-blue-700 hover:text-blue-900 mr-3 font-medium"
             >
-              &larr; Retour à l'accueil
+              &larr; Retour à l&apos;accueil
             </Link>
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
