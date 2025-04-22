@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center p-8 relative">
-      {/* Bouton Diaporama discret en haut à droite */}
+      {/* Bouton Diaporama (inchangé) */}
       <div className="absolute top-4 right-4">
         <Link
           href="https://diaporamas.gyselinck.fr"
@@ -26,6 +26,7 @@ export default function Home() {
           Diaporama
         </Link>
       </div>
+      {/* Header (inchangé) */}
       <header className="w-full max-w-4xl mb-12 text-center">
         <h1 className="text-3xl font-bold mb-4">
           Exercices interactifs en SES
@@ -37,8 +38,9 @@ export default function Home() {
       <main className="w-full max-w-4xl flex-grow">
         <section className="mb-10">
           <h2 className="text-2xl font-semibold mb-6">Exercices disponibles</h2>
+          {/* Grille des exercices */}
           <div className="grid gap-6 md:grid-cols-2">
-            {/* Carte pour l'exercice 1 */}
+            {/* Carte pour l'exercice 1 (inchangée) */}
             <Link href="/exercices/exercice1" className="block">
               <div className="border border-gray-200  rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400 ">
                 <h3 className="text-xl font-medium mb-2">
@@ -66,7 +68,7 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* Carte pour l'exercice 2 */}
+            {/* Carte pour l'exercice 2 (inchangée) */}
             <Link href="/exercices/exercice2" className="block">
               <div className="border border-gray-200  rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400 ">
                 <h3 className="text-xl font-medium mb-2">
@@ -93,7 +95,7 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* Carte pour l'exercice 3 */}
+            {/* Carte pour l'exercice 3 (inchangée) */}
             <Link href="/exercices/exercice3" className="block">
               <div className="border border-gray-200  rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400 ">
                 <h3 className="text-xl font-medium mb-2">
@@ -122,7 +124,7 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* Carte pour l'exercice 4 */}
+            {/* Carte pour l'exercice 4 (inchangée) */}
             <Link href="/exercices/exercice4" className="block">
               <div className="border border-gray-200  rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400 ">
                 <h3 className="text-xl font-medium mb-2">
@@ -149,9 +151,40 @@ export default function Home() {
                 </div>
               </div>
             </Link>
-          </div>
+
+            {/* --- NOUVELLE CARTE POUR L'EXERCICE 5 --- */}
+            <Link href="/exercices/exercice5" className="block">
+              <div className="border border-gray-200 rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400">
+                <h3 className="text-xl font-medium mb-2">
+                  Exercice 5 - Lecture et interprétation de données
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Analyser un tableau sur la croissance du PIB par habitant et
+                  rédiger une phrase d'interprétation.
+                </p>
+                <div className="text-blue-600 flex items-center">
+                  Commencer l'exercice
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+            {/* --- FIN DE LA NOUVELLE CARTE --- */}
+          </div>{" "}
+          {/* Fin de la grille */}
         </section>
       </main>
+      {/* Footer (inchangé) */}
       <footer className="w-full max-w-4xl py-6 border-t border-gray-200  text-center text-gray-600 ">
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="flex items-center">
