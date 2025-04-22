@@ -5,19 +5,19 @@ import Exercice2Content from "@/components/exercices/Exercice2Content";
 import ProfessorResourcesExercice1 from "@/components/prof/ProfessorResourcesExercice1";
 import { getParcoursMeta, parcoursMetaData } from "@/data/parcoursData";
 
-// Typage des paramètres
-type EtapePageParams = {
-  parcoursSlug: string;
-  etapeNumero: string;
+// Définition des types des paramètres
+type Props = {
+  params: {
+    parcoursSlug: string;
+    etapeNumero: string;
+  };
+  searchParams: Record<string, string | string[] | undefined>;
 };
 
-// Page component avec async pour être compatible avec Next.js App Router
-export default async function EtapePage({
-  params,
-}: {
-  params: EtapePageParams;
-}) {
+// Composant de page avec le typage correct pour Next.js App Router
+export default function EtapePage({ params }: Props) {
   const { parcoursSlug, etapeNumero } = params;
+  // Le reste du code reste identique
   const etapeCourante = parseInt(etapeNumero, 10);
 
   // Obtenir les métadonnées
@@ -109,9 +109,16 @@ export default async function EtapePage({
   );
 }
 
-// generateStaticParams reste inchangé
-export async function generateStaticParams() {
-  const paths = [];
+// Structure des paramètres pour generateStaticParams
+type StaticParams = {
+  parcoursSlug: string;
+  etapeNumero: string;
+};
+
+// Fonction pour générer les paramètres statiques
+export async function generateStaticParams(): Promise<StaticParams[]> {
+  const paths: StaticParams[] = [];
+
   for (const slug in parcoursMetaData) {
     const meta = parcoursMetaData[slug as keyof typeof parcoursMetaData];
     if (
@@ -130,5 +137,6 @@ export async function generateStaticParams() {
       console.warn(`Metadata issue for slug: ${slug}`, meta);
     }
   }
+
   return paths;
 }
