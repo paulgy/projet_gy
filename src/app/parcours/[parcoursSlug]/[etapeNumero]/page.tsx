@@ -1,26 +1,27 @@
-// src/app/parcours/[parcoursSlug]/[etapeNumero]/page.tsx
 import React from "react";
 import Link from "next/link";
 import Exercice1Content from "@/components/exercices/Exercice1Content";
 import Exercice2Content from "@/components/exercices/Exercice2Content";
 import ProfessorResourcesExercice1 from "@/components/prof/ProfessorResourcesExercice1";
-import { getParcoursMeta, parcoursMetaData } from "@/data/parcoursData"; // Assurez-vous que getParcoursMeta est synchrone
+import { getParcoursMeta, parcoursMetaData } from "@/data/parcoursData";
 
-// --- Interface UNIQUEMENT pour la forme de l'objet params ---
-interface EtapePageParams {
+// Typage des paramètres
+type EtapePageParams = {
   parcoursSlug: string;
   etapeNumero: string;
-}
+};
 
-// --- Typage DIRECT de l'argument de la fonction ---
-// Pas d'async ici si la logique interne est synchrone
-export default function EtapePage({ params }: { params: EtapePageParams }) {
-  // params est maintenant garanti d'être du type EtapePageParams
+// Page component avec async pour être compatible avec Next.js App Router
+export default async function EtapePage({
+  params,
+}: {
+  params: EtapePageParams;
+}) {
   const { parcoursSlug, etapeNumero } = params;
   const etapeCourante = parseInt(etapeNumero, 10);
 
-  // Logique synchrone pour obtenir les métadonnées
-  const meta = getParcoursMeta(parcoursSlug); // Important : s'assurer que cette fonction n'est pas async
+  // Obtenir les métadonnées
+  const meta = getParcoursMeta(parcoursSlug);
 
   if (!meta) {
     return (
@@ -35,7 +36,7 @@ export default function EtapePage({ params }: { params: EtapePageParams }) {
 
   const totalEtapes = meta.etapes;
 
-  // Sélection du composant (logique synchrone)
+  // Sélection du composant
   let ExerciceComponent: React.ComponentType | null = null;
   if (parcoursSlug === "travail-independant-salariat-france") {
     if (etapeCourante === 1) {
@@ -60,13 +61,11 @@ export default function EtapePage({ params }: { params: EtapePageParams }) {
   const etapePrecedente = etapeCourante > 1 ? etapeCourante - 1 : null;
   const etapeSuivante = etapeCourante < totalEtapes ? etapeCourante + 1 : null;
 
-  // Return JSX (synchrone)
   return (
     <div className="etape-container p-4 md:p-8 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">
         {meta.titre} - Étape {etapeCourante}
       </h1>
-      {/* ... reste du JSX ... */}
       <div className="mb-8">
         <ExerciceComponent />
       </div>
@@ -110,18 +109,10 @@ export default function EtapePage({ params }: { params: EtapePageParams }) {
   );
 }
 
-// --- generateStaticParams ---
-// Utiliser une interface pour clarifier la structure retournée
-interface StaticParams {
-  parcoursSlug: string;
-  etapeNumero: string;
-}
-
-// La fonction reste async, c'est correct
-export async function generateStaticParams(): Promise<StaticParams[]> {
-  const paths: StaticParams[] = [];
+// generateStaticParams reste inchangé
+export async function generateStaticParams() {
+  const paths = [];
   for (const slug in parcoursMetaData) {
-    // Assurez-vous que parcoursMetaData est bien typé ou faites une assertion si nécessaire
     const meta = parcoursMetaData[slug as keyof typeof parcoursMetaData];
     if (
       meta &&
@@ -130,14 +121,13 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
       typeof meta.etapes === "number"
     ) {
       for (let i = 1; i <= meta.etapes; i++) {
-        const params: StaticParams = {
+        paths.push({
           parcoursSlug: slug,
           etapeNumero: i.toString(),
-        };
-        paths.push(params);
+        });
       }
     } else {
-      console.warn(`Metadata issue for slug: ${slug}`, meta); // Log d'avertissement si la structure n'est pas celle attendue
+      console.warn(`Metadata issue for slug: ${slug}`, meta);
     }
   }
   return paths;
