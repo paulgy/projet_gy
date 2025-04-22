@@ -186,8 +186,8 @@ const ExerciceLectureDonneesPage = () => {
               dans le tableau ci-dessus.
             </p>
             <p className="text-sm mt-1 italic">
-              Indice : Pensez à mentionner l'indicateur, l'année, la zone
-              géographique (implicite ici : France) et la valeur.
+              Indice : Pensez à mentionner l&lsquo;indicateur, l&rsquo;année, la
+              zone géographique (implicite ici : France) et la valeur.
             </p>
           </div>
 
