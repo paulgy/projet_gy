@@ -7,7 +7,7 @@ export default function Home() {
       {/* Bouton Diaporama discret en haut à droite */}
       <div className="absolute top-4 right-4">
         <Link
-          href="/diaporama"
+          href="https://diaporamas.gyselinck.fr"
           className="px-3 py-1.5 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition-colors flex items-center shadow-sm"
         >
           <svg
