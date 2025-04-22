@@ -120,11 +120,11 @@ const ExerciceLectureDonneesPage = () => {
               href="/"
               className="text-blue-700 hover:text-blue-900 mr-3 font-medium"
             >
-              &larr; Retour aux exercices
+              &larr; Retour à l'accueil
             </Link>
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Exercice 5 - Lecture et interprétation de données
+            Lecture de données corrigée par Mistral AI
           </h1>
           <p className="text-gray-700">
             Analysez le tableau statistique ci-dessous et répondez à la question

@@ -29,11 +29,11 @@ export default function Exercice4() {
               href="/"
               className="text-blue-700 hover:text-blue-900 mr-3 font-medium"
             >
-              &larr; Retour aux exercices
+              &larr; Retour à l'accueil
             </Link>
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            Exercice 4 - Traiter des données statistiques avec un tableur
+            Traiter des données statistiques avec un tableur
           </h1>
           <p className="text-gray-700">
             Cet exercice vous permettra de travailler sur des données
