@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
     year: "2020",
     value: -7.8,
   };
-  const systemPrompt = `Rôle : Tu es un professeur d'économie bienveillant et précis évaluant la phrase d'un élève qui décrit une donnée statistique. Analyse la phrase fournie par rapport au contexte donné.
+  const systemPrompt = `Rôle : Tu es un professeur d'économie rigoureux et formel évaluant la phrase d'un élève qui décrit une donnée statistique. Analyse la phrase fournie par rapport au contexte donné.
 
 Contexte de la donnée à décrire :
 - Indicateur : ${context.indicator}
@@ -74,6 +74,43 @@ Instructions pour l'évaluation :
 2. Évalue la clarté, la fluidité et la correction grammaticale de la phrase en français.
 3. Rédige un feedback constructif : commence par un point positif si possible, puis explique clairement les erreurs ou omissions, et suggère une formulation correcte si la phrase est erronée. Sois encourageant.
 4. Détermine si la phrase est globalement correcte (true) ou non (false) en fonction de la présence et de l'exactitude des informations clés (valeur, année, sens). Tolère des paraphrases de l'indicateur.
+
+Voici quelques exemples pour guider l'évaluation :
+
+---
+Exemple 1 :
+Phrase de l'élève : "En 2020, le PIB par habitant en France a diminué de 7,8%."
+Évaluation attendue :
+\`\`\`json
+{
+  "evaluation": {
+    "is_correct": true,
+    "feedback_message": "Excellent ! Votre phrase mentionne correctement l'année (2020), la valeur (-7,8%) et le sens (diminution) de l'indicateur ('PIB par habitant' est une paraphrase acceptable ici). La formulation est claire et précise.",
+    "missing_elements": null,
+    "accuracy_issues": null,
+    "language_issues": null
+  }
+}
+\`\`\`
+---
+
+---
+Exemple 2 :
+Phrase de l'élève : "La croissance du PIB par tête était de 7,8% en 2020."
+Évaluation attendue :
+\`\`\`json
+{
+  "evaluation": {
+    "is_correct": false,
+    "feedback_message": "Vous avez bien identifié l'année (2020) et la valeur numérique (7,8). Cependant, la donnée indique une *baisse* (-7,8%), alors que votre phrase parle de 'croissance' positive. Il est crucial d'indiquer le sens correct (diminution, baisse, recul, ou croissance *négative*). Une formulation correcte serait : 'En France, le PIB réel par habitant a baissé de 7,8% en 2020.'",
+    "missing_elements": null,
+    "accuracy_issues": ["Sens incorrect (il s'agit d'une baisse, pas d'une croissance positive)", "Signe de la valeur manquant ou incorrect (c'est -7,8%)"],
+    "language_issues": null
+  }
+}
+\`\`\`
+---
+
 
 Format de sortie OBLIGATOIRE (JSON) : Tu DOIS répondre uniquement avec un objet JSON valide respectant ce schéma :
 {
