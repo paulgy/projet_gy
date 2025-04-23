@@ -1,26 +1,40 @@
+// projet_gy/src/app/parcours/[parcoursSlug]/[etapeNumero]/page.tsx
+
 import React from "react";
 import Link from "next/link";
 import Exercice1Content from "@/components/exercices/Exercice1Content";
 import Exercice2Content from "@/components/exercices/Exercice2Content";
 import ProfessorResourcesExercice1 from "@/components/prof/ProfessorResourcesExercice1";
 import { getParcoursMeta, parcoursMetaData } from "@/data/parcoursData";
+// Pas besoin de notFound ici si vous gérez l'absence de meta autrement
 
-// Définition des types des paramètres
-type Props = {
-  params: {
-    parcoursSlug: string;
-    etapeNumero: string;
-  };
-  searchParams: Record<string, string | string[] | undefined>;
+// --- Application du modèle du projet fonctionnel ---
+
+// Étape 1: Définir la forme des paramètres une fois la Promise résolue
+type ResolvedParams = {
+  parcoursSlug: string;
+  etapeNumero: string;
 };
 
-// Composant de page avec le typage correct pour Next.js App Router
-export default function EtapePage({ params }: Props) {
-  const { parcoursSlug, etapeNumero } = params;
-  // Le reste du code reste identique
+// Étape 2: Définir le type des props de la page avec les Promises (CORRIGÉ)
+type Props = {
+  // Renommé en Props pour correspondre à votre usage original
+  params: Promise<ResolvedParams>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>; // searchParams est une Promise, optionnelle
+};
+
+// Étape 3: Utiliser le type Props et rendre le composant Page ASYNC (CORRIGÉ)
+// Note: On ne récupère que 'params' car 'searchParams' n'était pas utilisé (vu lors de l'erreur ESLint)
+export default async function EtapePage({ params }: Props) {
+  // Utiliser await pour obtenir les valeurs des paramètres résolus (CORRIGÉ)
+  const resolvedParams = await params;
+
+  // Extraire les slugs/numeros DEPUIS les params résolus (CORRIGÉ)
+  const { parcoursSlug, etapeNumero } = resolvedParams;
+
+  // Le reste de votre code original, qui utilise maintenant les valeurs résolues (INCHANGÉ DANS SA LOGIQUE)
   const etapeCourante = parseInt(etapeNumero, 10);
 
-  // Obtenir les métadonnées
   const meta = getParcoursMeta(parcoursSlug);
 
   if (!meta) {
@@ -36,7 +50,6 @@ export default function EtapePage({ params }: Props) {
 
   const totalEtapes = meta.etapes;
 
-  // Sélection du composant
   let ExerciceComponent: React.ComponentType | null = null;
   if (parcoursSlug === "travail-independant-salariat-france") {
     if (etapeCourante === 1) {
@@ -109,16 +122,16 @@ export default function EtapePage({ params }: Props) {
   );
 }
 
-// Structure des paramètres pour generateStaticParams
+// --- La partie generateStaticParams reste inchangée ---
+// Assurez-vous qu'elle est bien présente et correcte comme dans votre code original
 type StaticParams = {
   parcoursSlug: string;
   etapeNumero: string;
 };
 
-// Fonction pour générer les paramètres statiques
 export async function generateStaticParams(): Promise<StaticParams[]> {
   const paths: StaticParams[] = [];
-
+  // ... (votre logique pour peupler paths) ...
   for (const slug in parcoursMetaData) {
     const meta = parcoursMetaData[slug as keyof typeof parcoursMetaData];
     if (
@@ -137,6 +150,5 @@ export async function generateStaticParams(): Promise<StaticParams[]> {
       console.warn(`Metadata issue for slug: ${slug}`, meta);
     }
   }
-
   return paths;
 }
