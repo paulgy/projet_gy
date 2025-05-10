@@ -4,37 +4,27 @@ import React from "react";
 import Link from "next/link";
 import Exercice1Content from "@/components/exercices/Exercice1Content";
 import Exercice2Content from "@/components/exercices/Exercice2Content";
+import Exercice5Content from "@/components/exercices/Exercice5Content";
+import Exercice6Content from "@/components/exercices/Exercice6Content";
+import Exercice2Ec2MistralContent from "@/components/exercices/Exercice2Ec2MistralContent"; // << CET IMPORT DOIT ÊTRE LÀ
+
 import ProfessorResourcesExercice1 from "@/components/prof/ProfessorResourcesExercice1";
 import { getParcoursMeta, parcoursMetaData } from "@/data/parcoursData";
-// Pas besoin de notFound ici si vous gérez l'absence de meta autrement
 
-// --- Application du modèle du projet fonctionnel ---
-
-// Étape 1: Définir la forme des paramètres une fois la Promise résolue
 type ResolvedParams = {
   parcoursSlug: string;
   etapeNumero: string;
 };
 
-// Étape 2: Définir le type des props de la page avec les Promises (CORRIGÉ)
 type Props = {
-  // Renommé en Props pour correspondre à votre usage original
   params: Promise<ResolvedParams>;
-  searchParams?: Promise<Record<string, string | string[] | undefined>>; // searchParams est une Promise, optionnelle
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-// Étape 3: Utiliser le type Props et rendre le composant Page ASYNC (CORRIGÉ)
-// Note: On ne récupère que 'params' car 'searchParams' n'était pas utilisé (vu lors de l'erreur ESLint)
 export default async function EtapePage({ params }: Props) {
-  // Utiliser await pour obtenir les valeurs des paramètres résolus (CORRIGÉ)
   const resolvedParams = await params;
-
-  // Extraire les slugs/numeros DEPUIS les params résolus (CORRIGÉ)
   const { parcoursSlug, etapeNumero } = resolvedParams;
-
-  // Le reste de votre code original, qui utilise maintenant les valeurs résolues (INCHANGÉ DANS SA LOGIQUE)
   const etapeCourante = parseInt(etapeNumero, 10);
-
   const meta = getParcoursMeta(parcoursSlug);
 
   if (!meta) {
@@ -49,13 +39,22 @@ export default async function EtapePage({ params }: Props) {
   }
 
   const totalEtapes = meta.etapes;
-
   let ExerciceComponent: React.ComponentType | null = null;
+
   if (parcoursSlug === "travail-independant-salariat-france") {
     if (etapeCourante === 1) {
       ExerciceComponent = Exercice1Content;
     } else if (etapeCourante === 2) {
       ExerciceComponent = Exercice2Content;
+    }
+  } else if (parcoursSlug === "lecture-interpretation-donnees-ia") {
+    if (etapeCourante === 1) {
+      // AJOUT DE CETTE CONDITION
+      ExerciceComponent = Exercice2Ec2MistralContent;
+    } else if (etapeCourante === 2) {
+      ExerciceComponent = Exercice6Content;
+    } else if (etapeCourante === 3) {
+      ExerciceComponent = Exercice5Content;
     }
   }
 
@@ -109,6 +108,7 @@ export default async function EtapePage({ params }: Props) {
           </span>
         )}
       </div>
+      {/* La section Ressources Professeur reste spécifique au premier parcours */}
       {parcoursSlug === "travail-independant-salariat-france" &&
         etapeCourante === 1 && (
           <div className="mt-12 pt-6 border-t border-dashed border-gray-400">
@@ -122,8 +122,6 @@ export default async function EtapePage({ params }: Props) {
   );
 }
 
-// --- La partie generateStaticParams reste inchangée ---
-// Assurez-vous qu'elle est bien présente et correcte comme dans votre code original
 type StaticParams = {
   parcoursSlug: string;
   etapeNumero: string;
@@ -131,7 +129,6 @@ type StaticParams = {
 
 export async function generateStaticParams(): Promise<StaticParams[]> {
   const paths: StaticParams[] = [];
-  // ... (votre logique pour peupler paths) ...
   for (const slug in parcoursMetaData) {
     const meta = parcoursMetaData[slug as keyof typeof parcoursMetaData];
     if (

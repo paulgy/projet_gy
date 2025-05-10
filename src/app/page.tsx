@@ -1,28 +1,36 @@
 /* eslint-disable react/no-unescaped-entities */
 import Link from "next/link";
+import { parcoursMetaData } from "@/data/parcoursData"; // AJOUT: Importer les métadonnées
 
 export default function Home() {
-  // --- Définir ici les infos du parcours à afficher en première carte ---
-  // Adaptez le slug, titre, description à votre parcours réel.
-  const parcoursPrincipal = {
-    slug: "travail-independant-salariat-france", // Votre slug réel
-    //     title: "Parcours : Économie et Emploi en France", // Titre du Parcours
-    title: "Travail Indépendant et Salariat en France",
-    //     description:
-    description: "Analyser l'évolution de la structure de l'emploi.", // Description du Parcours
+  // AJOUT: Définir les infos pour le nouveau parcours
+
+  const nouveauParcours = {
+    slug: "lecture-interpretation-donnees-ia", // Le slug que nous avons défini
+    title: parcoursMetaData["lecture-interpretation-donnees-ia"].titre, // Titre depuis parcoursMetaData
+    description:
+      "S'exercer à la lecture et l'analyse d'un document statistique à l'aide de l'IA.", // Description suggérée
   };
+
+  const parcoursPrincipal = {
+    slug: "travail-independant-salariat-france",
+    title: parcoursMetaData["travail-independant-salariat-france"].titre, // Utilisation de parcoursMetaData
+    description: "Analyser l'évolution de la structure de l'emploi.",
+  };
+
   // --- Fin de la définition ---
 
   return (
     <div className="min-h-screen flex flex-col items-center p-8 relative">
       {/* Bouton Diaporama (inchangé) */}
       <div className="absolute top-4 right-4">
+        {/* ... (code du bouton Diaporama inchangé) ... */}
         <Link
           href="https://diaporamas.gyselinck.fr"
           className="px-3 py-1.5 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition-colors flex items-center shadow-sm"
         >
           <svg
-            /* ... icône ... */ xmlns="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/svg"
             className="h-4 w-4 mr-1"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -38,8 +46,9 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Header (adapté légèrement si besoin) */}
+      {/* Header (inchangé) */}
       <header className="w-full max-w-4xl mb-12 text-center">
+        {/* ... (code du header inchangé) ... */}
         <h1 className="text-3xl font-bold mb-4">
           Activités interactives en SES
         </h1>
@@ -50,16 +59,59 @@ export default function Home() {
 
       <main className="w-full max-w-4xl flex-grow">
         <section className="mb-10">
-          {/* Titre unique pour la section mixte */}
           <h2 className="text-2xl font-semibold mb-6">Activités Disponibles</h2>
-          {/* Grille unique contenant 4 cartes */}
+          {/* Grille md:grid-cols-2. Une 5ème carte ira sur une nouvelle ligne sur md et plus grand. */}
           <div className="grid gap-6 md:grid-cols-2">
-            {/* --- CARTE 1 : Le Parcours --- */}
+            {/* --- AJOUT: CARTE POUR LE NOUVEAU PARCOURS --- */}
             <Link
-              href={`/parcours/${parcoursPrincipal.slug}/1`} // Lien vers la première étape du parcours
+              href={`/parcours/${nouveauParcours.slug}/1`}
               className="block"
             >
-              {/* Utilisation du style standard des cartes pour la cohérence */}
+              <div className="border border-gray-200 rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400">
+                <h3 className="text-xl font-medium mb-2">
+                  {(() => {
+                    const title = nouveauParcours.title;
+                    const keyword = "Mistral AI";
+                    const parts = title.split(keyword);
+                    if (parts.length === 2) {
+                      return (
+                        <>
+                          {parts[0]}
+                          <span className="font-semibold text-orange-600">
+                            {keyword}
+                          </span>
+                          {parts[1]}
+                        </>
+                      );
+                    }
+                    return title; // Fallback si le mot-clé n'est pas trouvé
+                  })()}
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  {nouveauParcours.description}
+                </p>
+                <div className="text-blue-600 flex items-center">
+                  Commencer le parcours
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 ml-1"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+            {/* --- CARTE 1 : Le Parcours Principal (INCHANGÉ DANS SA STRUCTURE) --- */}
+            <Link
+              href={`/parcours/${parcoursPrincipal.slug}/1`}
+              className="block"
+            >
               <div className="border border-gray-200 rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400">
                 <h3 className="text-xl font-medium mb-2">
                   {parcoursPrincipal.title}
@@ -69,9 +121,8 @@ export default function Home() {
                 </p>
                 <div className="text-blue-600 flex items-center">
                   Commencer le parcours
-                  {/* Icône flèche */}
                   <svg
-                    /* ... icône ... */ xmlns="http://www.w3.org/2000/svg"
+                    xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 ml-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -86,8 +137,9 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* --- CARTE 2 : Exercice 3 (INCHANGÉE) --- */}
+            {/* --- CARTE : Exercice 3 (anciennement CARTE 2) --- */}
             <Link href="/exercices/exercice3" className="block">
+              {/* ... (contenu de la carte Exercice 3 inchangé) ... */}
               <div className="border border-gray-200 rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400">
                 <h3 className="text-xl font-medium mb-2">
                   Lire et interpréter des évolutions exprimées en indices
@@ -99,7 +151,7 @@ export default function Home() {
                 <div className="text-blue-600 flex items-center">
                   Commencer l'exercice
                   <svg
-                    /* ... icône ... */ xmlns="http://www.w3.org/2000/svg"
+                    xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 ml-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -114,8 +166,9 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* --- CARTE 3 : Exercice 4 (INCHANGÉE) --- */}
+            {/* --- CARTE : Exercice 4 (anciennement CARTE 3) --- */}
             <Link href="/exercices/exercice4" className="block">
+              {/* ... (contenu de la carte Exercice 4 inchangé) ... */}
               <div className="border border-gray-200 rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400">
                 <h3 className="text-xl font-medium mb-2">
                   Traiter des données statistiques avec un tableur
@@ -127,38 +180,7 @@ export default function Home() {
                 <div className="text-blue-600 flex items-center">
                   Commencer l'exercice
                   <svg
-                    /* ... icône ... */ xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 ml-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </Link>
-
-            {/* --- CARTE 4 : Exercice 5 (INCHANGÉE) --- */}
-            <Link href="/exercices/exercice5" className="block">
-              <div className="border border-gray-200 rounded-lg p-6 transition-all hover:shadow-md hover:border-blue-400">
-                <h3 className="text-xl font-medium mb-2">
-                  Lecture de données corrigée par{" "}
-                  <span className="font-semibold text-orange-600">
-                    Mistral AI
-                  </span>{" "}
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Analyser un tableau sur la croissance du PIB par habitant et
-                  rédiger une phrase d'interprétation.
-                </p>
-                <div className="text-blue-600 flex items-center">
-                  Commencer l'exercice
-                  <svg
-                    /* ... icône ... */ xmlns="http://www.w3.org/2000/svg"
+                    xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 ml-1"
                     viewBox="0 0 20 20"
                     fill="currentColor"
@@ -179,6 +201,7 @@ export default function Home() {
 
       {/* Footer (inchangé) */}
       <footer className="w-full max-w-4xl py-6 border-t border-gray-200 text-center text-gray-600">
+        {/* ... (code du footer inchangé) ... */}
         <div className="flex flex-col items-center justify-center gap-2">
           <div className="flex items-center">
             <a
@@ -188,7 +211,7 @@ export default function Home() {
               className="flex items-center hover:text-gray-800 transition-colors"
             >
               <svg
-                /* ... icône CC ... */ xmlns="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 496 512"
                 className="h-5 w-5"
               >

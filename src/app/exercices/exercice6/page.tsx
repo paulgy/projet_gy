@@ -17,7 +17,8 @@ const ExercisePage = () => {
           </Link>
         </div>
         <h1 className="text-2xl font-bold text-gray-800">
-          Exercice : Analyse de données statistiques
+          S&apos;entraîner à la question 1 de l&apos;EC2 avec{" "}
+          <span className="font-semibold text-orange-600">Mistral AI</span>
         </h1>
       </div>
 
