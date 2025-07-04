@@ -16,7 +16,8 @@ export const parcoursMetaData: AllParcoursMetaData = {
   },
   "lecture-interpretation-donnees-ia": {
     // Ce parcours va maintenant contenir 3 étapes
-    titre: "S'entraîner à la question 1 de l'EC2 avec Mistral AI", // Vous pouvez garder ce titre ou l'adapter si besoin
+    titre:
+      "S'entraîner à la question 1 de l'EC2 avec Mistral AI (API désactivée provisoirement)", // Vous pouvez garder ce titre ou l'adapter si besoin
     etapes: 2, // <--- CHANGEMENT ICI : ce parcours a maintenant 2 étapes
   },
   // L'entrée pour 'sentrainer-ec2-mistral' que nous avions envisagée n'est plus nécessaire
