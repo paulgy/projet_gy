@@ -6,7 +6,7 @@ import Exercice1Content from "@/components/exercices/Exercice1Content";
 import Exercice2Content from "@/components/exercices/Exercice2Content";
 import Exercice5Content from "@/components/exercices/Exercice5Content";
 import Exercice6Content from "@/components/exercices/Exercice6Content";
-import Exercice2Ec2MistralContent from "@/components/exercices/Exercice2Ec2MistralContent"; // << CET IMPORT DOIT ÊTRE LÀ
+import Exercice2Ec2GeminiContent from "@/components/exercices/Exercice2Ec2GeminiContent";
 
 import ProfessorResourcesExercice1 from "@/components/prof/ProfessorResourcesExercice1";
 import { getParcoursMeta, parcoursMetaData } from "@/data/parcoursData";
@@ -50,7 +50,7 @@ export default async function EtapePage({ params }: Props) {
   } else if (parcoursSlug === "lecture-interpretation-donnees-ia") {
     if (etapeCourante === 1) {
       // AJOUT DE CETTE CONDITION
-      ExerciceComponent = Exercice2Ec2MistralContent;
+      ExerciceComponent = Exercice2Ec2GeminiContent;
     } else if (etapeCourante === 2) {
       ExerciceComponent = Exercice6Content;
     } else if (etapeCourante === 3) {

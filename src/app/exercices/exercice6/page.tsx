@@ -18,7 +18,7 @@ const ExercisePage = () => {
         </div>
         <h1 className="text-2xl font-bold text-gray-800">
           S&apos;entraîner à la question 1 de l&apos;EC2 avec{" "}
-          <span className="font-semibold text-orange-600">Mistral AI</span>
+          <span className="font-semibold text-purple-600">Gemini</span>
         </h1>
       </div>
 

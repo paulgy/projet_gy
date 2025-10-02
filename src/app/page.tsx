@@ -71,13 +71,13 @@ export default function Home() {
                 <h3 className="text-xl font-medium mb-2">
                   {(() => {
                     const title = nouveauParcours.title;
-                    const keyword = "Mistral AI";
+                    const keyword = "Gemini";
                     const parts = title.split(keyword);
                     if (parts.length === 2) {
                       return (
                         <>
                           {parts[0]}
-                          <span className="font-semibold text-orange-600">
+                          <span className="font-semibold text-purple-600">
                             {keyword}
                           </span>
                           {parts[1]}

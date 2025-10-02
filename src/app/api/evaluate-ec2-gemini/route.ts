@@ -169,7 +169,6 @@ Exemple de bonne réponse de l'élève (NE PAS MONTRER CET EXEMPLE À L'ÉLÈVE,
 "${exampleAnswer}"
 
 Format de sortie OBLIGATOIRE : Tu DOIS répondre **uniquement** avec un objet JSON valide respectant strictement ce schéma. Ne rajoute AUCUN texte avant ou après le JSON.
-***```json
 {
   "evaluation": {
     "score": 1, 
@@ -180,7 +179,6 @@ Format de sortie OBLIGATOIRE : Tu DOIS répondre **uniquement** avec un objet JS
     "language_issues": ["Exemple de problème de langue."]
   }
 }
-***
 `;
 
   const fullPrompt = `${systemPrompt}
@@ -189,7 +187,7 @@ Voici la réponse de l'élève à évaluer : "${studentAnswer}"`;
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       generationConfig: {
         responseMimeType: "application/json",
       },
