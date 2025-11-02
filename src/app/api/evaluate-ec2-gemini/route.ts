@@ -194,7 +194,7 @@ Voici la réponse de l'élève à évaluer : "${studentAnswer}"`;
     });
 
     console.log(
-      "Appel à l'API Gemini pour evaluate-ec2-gemini avec le modèle gemini-1.5-flash..."
+      "Appel à l'API Gemini pour evaluate-ec2-gemini avec le modèle gemini-pro..."
     );
 
     const result = await model.generateContent(fullPrompt);

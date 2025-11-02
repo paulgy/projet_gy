@@ -127,26 +127,24 @@ ${dataString}
 
 Critères d'évaluation et de notation (sur 2 points) :
 
-1.  **Compréhension et Pertinence (Focus sur 2023) :** (Coefficient 1)
+1.  **Compréhension et Pertinence (Focus sur 2023) :**
     * La réponse compare-t-elle bien l'engagement selon le *niveau de diplôme* ?
-    * La réponse se concentre-t-elle *exclusivement* sur les données de *2023* ? (Toute mention ou comparaison avec 2019/2022 est hors-sujet pour cette question précise).
+    * La réponse se concentre-t-elle *exclusivement* sur les données de *2023* ?
     * La réponse identifie-t-elle la *tendance générale* : l'engagement augmente avec le niveau de diplôme ?
 
-2.  **Utilisation des Données Statistiques :** (Coefficient 1)
+2.  **Utilisation des Données Statistiques :**
     * La réponse utilise-t-elle au moins *deux données chiffrées spécifiques et correctes* de 2023 pour illustrer la comparaison ? (ex: citer 29% et 16%).
-    * Les données citées sont-elles *exactes* et correctement interprétées ?
-    * Alternativement, l'élève utilise-t-il un *calcul pertinent* basé sur les données (ex: différence, ratio) pour comparer ?
+    * Les données citées sont-elles *exactes* ?
 
 Notation :
-* **2 points :** Réponse excellente. La tendance générale est clairement énoncée et illustrée par au moins deux données pertinentes et correctes de 2023 (ou un calcul juste). La réponse est focalisée sur 2023 et bien rédigée.
-* **1 point :** Réponse moyenne. La tendance est mentionnée mais peu ou mal illustrée (une seule donnée, erreur mineure dans une donnée, pas de donnée chiffrée), OU la tendance est correcte mais la réponse inclut des données hors-sujet (autres années), OU la réponse utilise des données correctes mais n'explicite pas clairement la tendance.
-* **0 points :** Réponse insuffisante. La tendance est incorrecte ou absente, aucune donnée pertinente/correcte de 2023 n'est utilisée, la réponse est hors-sujet (ne compare pas selon le diplôme, se base sur les mauvaises années) ou très confuse.
+* **2 points :** Réponse excellente. La tendance générale est clairement énoncée et illustrée par au moins deux données pertinentes et correctes de 2023.
+* **1 point :** Réponse moyenne. La tendance est mentionnée mais peu ou mal illustrée (une seule donnée, erreur mineure), OU des données hors-sujet sont utilisées.
+* **0 points :** Réponse insuffisante. Tendance incorrecte ou absente, aucune donnée pertinente de 2023, hors-sujet.
 
 Instructions pour le Feedback :
-* Commence par indiquer le score obtenu (ex: "Score : 1/2").
-* Sois spécifique : mentionne les points forts (ex: "Vous avez correctement identifié la tendance générale...") et les points faibles en lien direct avec les critères (ex: "Il manque des données chiffrées pour appuyer votre comparaison", "Attention à ne mentionner que les données de 2023 comme demandé").
-* Si la réponse est proche de la perfection mais manque un petit élément, suggère une amélioration.
-* Si la réponse est incorrecte, explique clairement pourquoi et rappelle la méthode attendue (identifier tendance + illustrer avec chiffres 2023).
+* Commence par le score (ex: "Score : X/2").
+* Mentionne les points forts (ex: "Vous avez correctement identifié la tendance générale...").
+* Explique les points faibles en lien avec les critères (ex: "Il manque des données chiffrées pour appuyer votre comparaison.").
 * Reste encourageant.
 
 Exemple de bonne réponse de l'élève (pour te guider, ne pas le montrer à l'élève) :
@@ -155,17 +153,18 @@ Exemple de bonne réponse de l'élève (pour te guider, ne pas le montrer à l'�
 Format de sortie OBLIGATOIRE : Tu DOIS répondre **uniquement** avec un objet JSON valide respectant strictement ce schéma. Ne rajoute AUCUN texte avant ou après le JSON.
 {
   "evaluation": {
-    "score": 2,
-    "feedback_message": "string",
-    "positive_points": ["string"],
-    "missing_elements": ["string"],
-    "accuracy_issues": ["string"],
-    "language_issues": ["string"]
+    "score": 1,
+    "feedback_message": "Exemple de feedback.",
+    "positive_points": ["Exemple de point positif."],
+    "missing_elements": ["Exemple d'élément manquant."],
+    "accuracy_issues": null,
+    "language_issues": ["Exemple de problème de langue."]
   }
 }
 `;
 
-  const userPrompt = `Voici la réponse de l'élève à évaluer : "${studentAnswer}"`;
+  const fullPrompt = `${systemPrompt}
+Voici la réponse de l'élève à évaluer : "${studentAnswer}"`;
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
@@ -176,11 +175,15 @@ Format de sortie OBLIGATOIRE : Tu DOIS répondre **uniquement** avec un objet JS
       },
     });
 
-    const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
+    console.log(
+      "Appel à l'API Gemini pour evaluate-volunteering-gemini avec le modèle gemini-pro..."
+    );
 
     const result = await model.generateContent(fullPrompt);
     const response = result.response;
     const rawResponseContent = response.text();
+
+    console.log("Réponse brute de Gemini reçue:", rawResponseContent);
 
     let evaluationData;
     try {
@@ -202,23 +205,32 @@ Format de sortie OBLIGATOIRE : Tu DOIS répondre **uniquement** avec un objet JS
         "Erreur de validation Zod de la réponse Gemini:",
         validationGemini.error.flatten()
       );
+      console.error("Données JSON parsées (avant échec Zod):", evaluationData);
       throw new Error(
-        "La structure de la réponse JSON de Gemini est incorrecte."
+        "La structure de la réponse JSON de Gemini est incorrecte ou ne respecte pas le schéma demandé."
       );
     }
+
+    console.log(
+      "Évaluation de Gemini validée par Zod:",
+      validationGemini.data.evaluation
+    );
 
     return NextResponse.json(validationGemini.data.evaluation);
   } catch (error) {
     console.error(
-      "Erreur lors de l'appel à l'API Gemini ou du traitement:",
+      "Erreur lors de l'appel à l'API Gemini ou du traitement de sa réponse:",
       error
     );
     const errorMessage =
       error instanceof Error
         ? error.message
-        : "Une erreur interne est survenue.";
+        : "Une erreur interne est survenue lors de l'évaluation par l'IA.";
     return NextResponse.json(
-      { error: "Impossible d'évaluer la réponse.", details: errorMessage },
+      {
+        error: "Impossible d'évaluer la réponse via l'IA pour le moment.",
+        details: errorMessage,
+      },
       { status: 500 }
     );
   }

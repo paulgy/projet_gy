@@ -55,7 +55,8 @@ const VolunteeringExercise = () => {
     console.log("Soumission de la réponse pour évaluation :", studentAnswer);
 
     try {
-      const response = await fetch("/api/evaluate-volunteering", {
+      // Note: The API route is now pointing to the Gemini evaluation endpoint
+      const response = await fetch("/api/evaluate-volunteering-gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answer: studentAnswer }),
