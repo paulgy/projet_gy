@@ -185,9 +185,9 @@ const GeminiEc2Exercise = () => {
         <button
           onClick={handleSubmit}
           className="mt-4 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-          disabled={isLoading || studentAnswer.trim().length < 10} // Condition de désactivation
+          disabled={true} // API désactivée provisoirement
         >
-          {isLoading ? "Évaluation en cours..." : "Soumettre et évaluer"}
+          {isLoading ? "Évaluation en cours..." : "Soumettre et évaluer (API désactivée provisoirement)"}
         </button>
 
         {/* Zone d'erreur (inchangée) */}
@@ -204,22 +204,20 @@ const GeminiEc2Exercise = () => {
         {/* Zone de feedback (inchangée dans sa structure) */}
         {feedback && !error && (
           <div
-            className={`mt-6 p-4 rounded-lg shadow-md border-l-4 ${
-              feedback.score === 2
+            className={`mt-6 p-4 rounded-lg shadow-md border-l-4 ${feedback.score === 2
                 ? "bg-green-50 border-green-500"
                 : feedback.score === 1
-                ? "bg-yellow-50 border-yellow-500"
-                : "bg-red-50 border-red-500"
-            }`}
+                  ? "bg-yellow-50 border-yellow-500"
+                  : "bg-red-50 border-red-500"
+              }`}
           >
             <p
-              className={`font-bold text-lg mb-2 ${
-                feedback.score === 2
+              className={`font-bold text-lg mb-2 ${feedback.score === 2
                   ? "text-green-800"
                   : feedback.score === 1
-                  ? "text-yellow-800"
-                  : "text-red-800"
-              }`}
+                    ? "text-yellow-800"
+                    : "text-red-800"
+                }`}
             >
               Résultat : Score {feedback.score}/2
             </p>
